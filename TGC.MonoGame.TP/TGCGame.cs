@@ -12,6 +12,7 @@ using TGC.MonoGame.TP.Stages;
 using Microsoft.Xna.Framework.Audio;
 using TGC.MonoGame.TP.UI;
 using Microsoft.Xna.Framework.Media;
+using System.ComponentModel.Design;
 
 namespace TGC.MonoGame.TP
 {
@@ -60,6 +61,7 @@ namespace TGC.MonoGame.TP
         // BOLITA
         private Character MainCharacter;
         private Stage Stage;
+        public int StageNumber { get; set; } = 1;
         protected List<Entity> Entities;
 
 
@@ -108,35 +110,39 @@ namespace TGC.MonoGame.TP
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteFont = Content.Load<SpriteFont>(ContentFolderSpriteFonts + "CascadiaCode/CascadiaCodePL");
-            UI = new UIManager(Content, GraphicsDevice, SpriteBatch, SpriteFont);
+            UI = new UIManager(this, Content, GraphicsDevice, SpriteBatch, SpriteFont);
 
-            Entities = new List<Entity>();
-
-            Stage = new Stage_01(GraphicsDevice, Content);
-
-            MainCharacter = new Character(Content, Stage, Entities);
-
-            BallEffect = Content.Load<Effect>(ContentFolderEffects + "PBR");
-
-            MergeEntities(Stage.Track, Stage.Obstacles, Stage.Signs, Stage.Pickups, Stage.Checkpoints);
+            LoadStage(StageNumber);
 
             base.LoadContent();
         }
 
-        private void UpdateContent()
+        public void LoadStage(int stage)
         {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            switch (stage)
+            {
+                case 1:
+                    Stage = new Stage_01(GraphicsDevice, Content);
+                    break;
+
+                default:
+                    Stage = new Stage_02(GraphicsDevice, Content);
+                    break;
+            }
+
             Entities = new List<Entity>();
-
-            Stage = new Stage_02(GraphicsDevice, Content);
-
             MainCharacter = new Character(Content, Stage, Entities);
-
             BallEffect = Content.Load<Effect>(ContentFolderEffects + "PBR");
-
             MergeEntities(Stage.Track, Stage.Obstacles, Stage.Signs, Stage.Pickups, Stage.Checkpoints);
 
-            base.LoadContent();
+            UI.ResetStage(stage);
+        }
+
+        private void LoadNextStage()
+        {
+            StageNumber++;
+            if (StageNumber > 2) { StageNumber = 1;  }
+            LoadStage(StageNumber);
         }
 
         private void MergeEntities(List<GeometricPrimitive> Track, List<GeometricPrimitive> Obstacles, List<GeometricPrimitive> Signs, List<GeometricPrimitive> Pickups, List<GeometricPrimitive> Checkpoints)
@@ -190,7 +196,7 @@ namespace TGC.MonoGame.TP
             {
                 if (MainCharacter.FinishedStage)
                 {
-                    UpdateContent();
+                    LoadNextStage();
                     UI.UIStatus = GameStatus.Menu;
                 }
 

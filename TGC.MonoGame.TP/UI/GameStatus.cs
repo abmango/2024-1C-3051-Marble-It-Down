@@ -5,6 +5,7 @@
         Title,
         Playing,
         Menu,
+        StageSelector,
         Exit
     }
 }

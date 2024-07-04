@@ -15,12 +15,15 @@ namespace TGC.MonoGame.TP.UI
 {
     internal class UIManager
     {
+        private TGCGame _game;
         private GraphicsDevice _graphicsDevice;
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
 
         public GameStatus UIStatus { get; set; }
         public MenuOption MenuStatus { get; set; }
+        public int StageOption { get; set; }
+
         public TimeSpan Timer { get; set; }
         public int Score { get; set; }
 
@@ -29,8 +32,9 @@ namespace TGC.MonoGame.TP.UI
 
         private KeyboardState _previouskeyboardState;
 
-        public UIManager(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, SpriteFont font)
+        public UIManager(TGCGame game, ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, SpriteFont font)
         {
+            _game = game;
             _graphicsDevice = graphicsDevice;
             _spriteBatch = spriteBatch;
             _spriteFont = font;
@@ -38,12 +42,21 @@ namespace TGC.MonoGame.TP.UI
 
             UIStatus = GameStatus.Title;
             MenuStatus = MenuOption.Resume;
+            StageOption = game.StageNumber;
             Timer = TimeSpan.Zero;
             Score = 0;
 
 
             MenuSoundEffect = content.Load<SoundEffect>(TGCGame.ContentFolderSounds + "menu");
             MenuSoundEffectInstance = MenuSoundEffect.CreateInstance();
+        }
+
+        public void ResetStage(int stage)
+        {
+            MenuStatus = MenuOption.Resume;
+            StageOption = stage;
+            Timer = TimeSpan.Zero;
+            Score = 0;
         }
 
         public void Update(GameTime gameTime)
@@ -72,9 +85,29 @@ namespace TGC.MonoGame.TP.UI
                     MenuStatus--;
                     MenuSoundEffectInstance.Play();
                 }
-                else if (keyboardState.IsKeyDown(Keys.Enter))
+                else if (IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Enter))
                 {
                     HandleMenuSelection();
+                }
+
+                _previouskeyboardState = keyboardState;
+            }
+            else if (UIStatus == GameStatus.StageSelector)
+            {
+                KeyboardState keyboardState = Keyboard.GetState();
+                if ((IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Down) || IsKeyPressed(keyboardState, _previouskeyboardState, Keys.S)) && StageOption < 2)
+                {
+                    StageOption++;
+                    MenuSoundEffectInstance.Play();
+                }
+                else if ((IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Up) || IsKeyPressed(keyboardState, _previouskeyboardState, Keys.W)) && StageOption > 1)
+                {
+                    StageOption--;
+                    MenuSoundEffectInstance.Play();
+                }
+                else if (IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Enter))
+                {
+                    HandleStageSelection();
                 }
 
                 _previouskeyboardState = keyboardState;
@@ -97,8 +130,7 @@ namespace TGC.MonoGame.TP.UI
                     break;
 
                 case MenuOption.Restart:
-                    // TODO: AudioManager.ResumeBackgroundMusic();
-                    // TODO: Restart position, timer, score 
+                    _game.LoadStage(StageOption);
                     UIStatus = GameStatus.Playing;
                     MediaPlayer.Volume = AudioManager.StandardVolume;
                     break;
@@ -108,7 +140,7 @@ namespace TGC.MonoGame.TP.UI
                     break;
 
                 case MenuOption.SelectStage:
-                    // TODO: select stage
+                    UIStatus = GameStatus.StageSelector;
                     break;
 
                 case MenuOption.Exit:
@@ -116,6 +148,12 @@ namespace TGC.MonoGame.TP.UI
                     UIStatus = GameStatus.Exit;
                     break;
             }
+        }
+
+        private void HandleStageSelection()
+        {
+            UIStatus = GameStatus.Playing;
+            _game.LoadStage(StageOption);
         }
 
         public void Draw()
@@ -131,6 +169,10 @@ namespace TGC.MonoGame.TP.UI
             else if (UIStatus == GameStatus.Menu)
             {
                 Menu.Draw(_graphicsDevice, _spriteBatch, _spriteFont, MenuStatus);
+            }
+            else if (UIStatus == GameStatus.StageSelector)
+            {
+                StageSelector.Draw(_graphicsDevice, _spriteBatch, _spriteFont, StageOption);
             }
         }
     }
