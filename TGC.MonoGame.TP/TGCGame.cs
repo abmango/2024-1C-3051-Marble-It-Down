@@ -11,6 +11,7 @@ using TGC.MonoGame.TP.MainCharacter;
 using TGC.MonoGame.TP.Stages;
 using Microsoft.Xna.Framework.Audio;
 using TGC.MonoGame.TP.UI;
+using Microsoft.Xna.Framework.Media;
 
 namespace TGC.MonoGame.TP
 {
@@ -107,7 +108,7 @@ namespace TGC.MonoGame.TP
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteFont = Content.Load<SpriteFont>(ContentFolderSpriteFonts + "CascadiaCode/CascadiaCodePL");
-            UI = new UIManager(GraphicsDevice, SpriteBatch, SpriteFont);
+            UI = new UIManager(Content, GraphicsDevice, SpriteBatch, SpriteFont);
 
             Entities = new List<Entity>();
 
@@ -175,6 +176,7 @@ namespace TGC.MonoGame.TP
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 UI.UIStatus = GameStatus.Menu;
+                MediaPlayer.Volume = AudioManager.MenuVolume;
             }
             UI.Update(gameTime);
 

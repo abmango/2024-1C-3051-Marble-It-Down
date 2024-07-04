@@ -1,9 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,9 +24,12 @@ namespace TGC.MonoGame.TP.UI
         public TimeSpan Timer { get; set; }
         public int Score { get; set; }
 
+        public SoundEffect MenuSoundEffect;
+        public SoundEffectInstance MenuSoundEffectInstance;
+
         private KeyboardState _previouskeyboardState;
 
-        public UIManager(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, SpriteFont font)
+        public UIManager(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, SpriteFont font)
         {
             _graphicsDevice = graphicsDevice;
             _spriteBatch = spriteBatch;
@@ -33,6 +40,10 @@ namespace TGC.MonoGame.TP.UI
             MenuStatus = MenuOption.Resume;
             Timer = TimeSpan.Zero;
             Score = 0;
+
+
+            MenuSoundEffect = content.Load<SoundEffect>(TGCGame.ContentFolderSounds + "menu");
+            MenuSoundEffectInstance = MenuSoundEffect.CreateInstance();
         }
 
         public void Update(GameTime gameTime)
@@ -54,12 +65,12 @@ namespace TGC.MonoGame.TP.UI
                 if ((IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Down) || IsKeyPressed(keyboardState, _previouskeyboardState, Keys.S)) && MenuStatus < MenuOption.Exit)
                 {
                     MenuStatus++;
-                    //TODO: AudioManager.SelectMenuSound.Play();
+                    MenuSoundEffectInstance.Play();
                 }
                 else if ((IsKeyPressed(keyboardState, _previouskeyboardState, Keys.Up) || IsKeyPressed(keyboardState, _previouskeyboardState, Keys.W)) && MenuStatus > MenuOption.Resume)
                 {
                     MenuStatus--;
-                    //TODO: AudioManager.SelectMenuSound.Play();
+                    MenuSoundEffectInstance.Play();
                 }
                 else if (keyboardState.IsKeyDown(Keys.Enter))
                 {
@@ -82,12 +93,14 @@ namespace TGC.MonoGame.TP.UI
                 case MenuOption.Resume:
                     // TODO: AudioManager.ResumeBackgroundMusic();
                     UIStatus = GameStatus.Playing;
+                    MediaPlayer.Volume = AudioManager.StandardVolume;
                     break;
 
                 case MenuOption.Restart:
                     // TODO: AudioManager.ResumeBackgroundMusic();
                     // TODO: Restart position, timer, score 
                     UIStatus = GameStatus.Playing;
+                    MediaPlayer.Volume = AudioManager.StandardVolume;
                     break;
 
                 case MenuOption.GodMode:
