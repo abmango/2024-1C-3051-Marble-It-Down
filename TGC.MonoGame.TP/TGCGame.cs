@@ -145,7 +145,7 @@ namespace TGC.MonoGame.TP
             LoadStage(StageNumber);
         }
 
-        private void MergeEntities(List<GeometricPrimitive> Track, List<GeometricPrimitive> Obstacles, List<GeometricPrimitive> Signs, List<GeometricPrimitive> Pickups, List<GeometricPrimitive> Checkpoints)
+        private void MergeEntities(List<GeometricPrimitive> Track, List<GeometricPrimitive> Obstacles, List<GeometricPrimitive> Signs, List<Pickup> Pickups, List<GeometricPrimitive> Checkpoints)
         {
             foreach (GeometricPrimitive myTrack in Track)
             {
@@ -162,10 +162,11 @@ namespace TGC.MonoGame.TP
                 Entities.Add(mySign);
             }
 
-            foreach (GeometricPrimitive myPickup in Pickups)
+            foreach (Pickup myPickup in Pickups)
             {
-                Entities.Add(myPickup);
+                Entities.Add(myPickup.Model);
             }
+
             foreach (GeometricPrimitive myCheckpoint in Checkpoints)
             {
                 Entities.Add(myCheckpoint);
@@ -184,6 +185,7 @@ namespace TGC.MonoGame.TP
                 UI.UIStatus = GameStatus.Menu;
                 MediaPlayer.Volume = AudioManager.MenuVolume;
             }
+            UI.Score = MainCharacter.Money;
             UI.Update(gameTime);
 
             MainCharacter.Status = UI.UIStatus;
@@ -200,6 +202,7 @@ namespace TGC.MonoGame.TP
                     UI.UIStatus = GameStatus.Menu;
                 }
 
+                Stage.Update(gameTime);
                 MainCharacter.Update(gameTime);
                 FollowCamera.Update(gameTime, MainCharacter.World);
 
