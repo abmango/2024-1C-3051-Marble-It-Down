@@ -14,6 +14,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using TGC.MonoGame.TP.Collisions;
 
 #endregion Using Statements
 
@@ -24,7 +25,7 @@ namespace TGC.MonoGame.TP.Geometries {
         // Esta clase crea un modelo pr�cticamente igual de al CubePrimitive. 
         // La agrago al proyecto �nicamente como referencia para el uso de CustomPrimitive.
 
-        public CustomCubePrimitive(GraphicsDevice graphicsDevice, ContentManager content, float size, Color color) {
+        public CustomCubePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null) {
 
             Color = color;
 
@@ -63,6 +64,11 @@ namespace TGC.MonoGame.TP.Geometries {
             // bottom normal
             AddTriangle(vertexList[4], vertexList[5], vertexList[6], size, color);
             AddTriangle(vertexList[7], vertexList[6], vertexList[5], size, color);
+
+            World = Matrix.CreateScale(scale ?? Vector3.One) * (rotation ?? Matrix.Identity) * Matrix.CreateTranslation(coordinates ?? Vector3.Zero);
+
+            BoundingCube = new OrientedBoundingBox(coordinates ?? Vector3.Zero, (scale ?? Vector3.One) * 25 / 2);
+            BoundingCube.Rotate(rotation ?? Matrix.Identity);
 
             InitializePrimitive(graphicsDevice, content);
         }

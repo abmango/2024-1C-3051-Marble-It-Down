@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using TGC.MonoGame.TP.UI;
 using System.Net;
+using TGC.MonoGame.TP.Stages.Items;
 
 namespace TGC.MonoGame.TP.MainCharacter
 {
@@ -61,6 +62,14 @@ namespace TGC.MonoGame.TP.MainCharacter
         public Vector3 contactPoint { get; set; }
         public Stage ActualStage;
         // Colisiones
+
+
+        /// Modificadores items
+        public float SpeedBoost { get; set; } = 1;
+        public float GravityBoost { get; set; } = 1;
+        public int Money { get; set; } = 0;
+        /// Modificadores items
+
 
         Vector3 BallSpinAxis = Vector3.UnitX;
         float BallSpinAngle = 0f;
@@ -308,6 +317,30 @@ namespace TGC.MonoGame.TP.MainCharacter
             }
         }
 
+        public void ProcessPickupCollision()
+        {
+            Pickup collected = null; 
+
+            foreach (Pickup pickup in ActualStage.PickupColliders)
+            {
+                if (pickup.BoundingCube is null)
+                    continue;
+
+                if (pickup.BoundingCube.Intersects(EsferaBola))
+                {
+                    pickup.PlaySoundEffect();
+                    pickup.ModifyCharacterStats(this);
+                    collected = pickup;
+                    break;
+                }
+            }
+
+            if (collected != null)
+            {
+                ActualStage.RemovePickup(collected);
+            }
+        }
+
         public bool IsColliding()
         {
             foreach (OrientedBoundingBox box in ActualStage.Colliders)
@@ -436,22 +469,22 @@ namespace TGC.MonoGame.TP.MainCharacter
             // Procesamiento del movimiento horizontal           
             if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
             {
-                Acceleration += Vector3.Transform(ForwardVector * -speed, Rotation); //amtes unitx
+                Acceleration += Vector3.Transform(ForwardVector * -speed, Rotation) * SpeedBoost; //amtes unitx
             }
             if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
             {
-                Acceleration += Vector3.Transform(ForwardVector * -speed, Rotation) * (-1);
+                Acceleration += Vector3.Transform(ForwardVector * -speed, Rotation) * (-1) * SpeedBoost;
             }
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
             {
-                Acceleration += Vector3.Transform(RightVector * speed, Rotation); //antes unitz
+                Acceleration += Vector3.Transform(RightVector * speed, Rotation) * SpeedBoost; //antes unitz
             }
             if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
             {
-                Acceleration += Vector3.Transform(RightVector * speed, Rotation) * (-1);
+                Acceleration += Vector3.Transform(RightVector * speed, Rotation) * (-1) * SpeedBoost;
             }
 
-            Acceleration += new Vector3(0f, -100f, 0f);
+            Acceleration += (new Vector3(0f, -100f, 0f) * GravityBoost);
 
             //Procesamiento del movimiento vertical
             float distGround = DistanceToGround(Position);
@@ -486,11 +519,17 @@ namespace TGC.MonoGame.TP.MainCharacter
 
             MoveTo(Position);
 
+            ProcessPickupCollision();
             UpdateLastCheckpoint();
 
             // Resetea la posición inicial del nivel si se cae al vacío
             if (Position.Y < -500)
             {
+                // modificadores items
+                Money -= 10;
+                SpeedBoost = 1;
+                GravityBoost = 1;
+
                 Position = LastCheckpoint;
                 Velocity = Vector3.Zero;
                 MoveTo(Position);

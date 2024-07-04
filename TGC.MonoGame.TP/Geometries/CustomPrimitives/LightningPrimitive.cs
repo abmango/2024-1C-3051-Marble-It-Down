@@ -14,6 +14,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using TGC.MonoGame.TP.Collisions;
 
 #endregion Using Statements
 
@@ -21,7 +22,7 @@ namespace TGC.MonoGame.TP.Geometries {
 
     public class LightningPrimitive : CustomPrimitive {
         
-        public LightningPrimitive(GraphicsDevice graphicsDevice, ContentManager content, float size, Color color) {
+        public LightningPrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null) {
 
             Color = color;
 
@@ -62,6 +63,11 @@ namespace TGC.MonoGame.TP.Geometries {
             AddTriangle(vertexList[5], vertexList[4], vertexList[11], size, color);
             AddTriangle(vertexList[8], vertexList[9], vertexList[2], size, color);
             AddTriangle(vertexList[3], vertexList[2], vertexList[9], size, color);
+
+            World = Matrix.CreateScale(scale ?? Vector3.One) * (rotation ?? Matrix.Identity) * Matrix.CreateTranslation(coordinates ?? Vector3.Zero);
+
+            BoundingCube = new OrientedBoundingBox(coordinates ?? Vector3.Zero, (scale ?? Vector3.One) * 25 / 2);
+            BoundingCube.Rotate(rotation ?? Matrix.Identity);
 
             InitializePrimitive(graphicsDevice, content);
         }

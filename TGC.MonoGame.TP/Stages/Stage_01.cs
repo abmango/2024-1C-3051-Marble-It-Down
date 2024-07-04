@@ -41,8 +41,8 @@ class Stage_01 : Stage
 
         for (int i = 0; i < Obstacles.Count; i++)
         {
-            //    GeometricPrimitive cuboActual = Obstacles[i];
-            //    Colliders.Add(cuboActual.BoundingCube);
+            CubePrimitive cuboActual = (CubePrimitive)Obstacles[i];
+            Colliders.Add(cuboActual.BoundingCube);
         }
 
         for (int i = 0; i < Signs.Count; i++)
@@ -51,11 +51,7 @@ class Stage_01 : Stage
             Colliders.Add(cuboActual.BoundingCube);
         }
 
-        for (int i = 0; i < Pickups.Count; i++)
-        {
-            //Geometric cuboActual = Pickups[i];
-            //Colliders.Add(cuboActual.BoundingCube);
-        }
+        PickupColliders = Pickups;
 
         for (int i = 0; i < Checkpoints.Count; i++)
         {
@@ -163,7 +159,7 @@ class Stage_01 : Stage
 
     protected override void LoadPickups()
     {
-        Pickups = new List<GeometricPrimitive>();
+        Pickups = new List<Pickup>();
     }
 
     protected override void LoadCheckpoints()

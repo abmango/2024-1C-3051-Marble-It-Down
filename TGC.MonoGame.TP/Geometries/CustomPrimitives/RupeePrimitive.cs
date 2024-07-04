@@ -14,6 +14,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using TGC.MonoGame.TP.Collisions;
 
 #endregion Using Statements
 
@@ -21,7 +22,8 @@ namespace TGC.MonoGame.TP.Geometries {
 
     public class RupeePrimitive : CustomPrimitive {
         
-        public RupeePrimitive(GraphicsDevice graphicsDevice, ContentManager content, float size, Color color) {
+        public RupeePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null)
+        {
 
             Color = color;
 
@@ -84,6 +86,11 @@ namespace TGC.MonoGame.TP.Geometries {
             AddTriangle(vertexList[17], vertexList[11], vertexList[16], size, color);
             AddTriangle(vertexList[11], vertexList[17], vertexList[6], size, color);
             AddTriangle(vertexList[12], vertexList[6], vertexList[17], size, color);
+
+            World = Matrix.CreateScale(scale ?? Vector3.One) * (rotation ?? Matrix.Identity) * Matrix.CreateTranslation(coordinates ?? Vector3.Zero);
+
+            BoundingCube = new OrientedBoundingBox(coordinates ?? Vector3.Zero, (scale ?? Vector3.One) * 25 / 2);
+            BoundingCube.Rotate(rotation ?? Matrix.Identity);
 
             InitializePrimitive(graphicsDevice, content);
         }

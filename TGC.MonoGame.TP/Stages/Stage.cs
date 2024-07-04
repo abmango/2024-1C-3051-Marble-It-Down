@@ -29,7 +29,7 @@ public abstract class Stage
     public List<GeometricPrimitive> Track; // circuito y obstáculos fijos 
     public List<GeometricPrimitive> Obstacles; // obstáculos móviles
     public List<GeometricPrimitive> Signs; //FIXME: eventualmente podrían ser algo distinto a GeometricPrimitive
-    public List<GeometricPrimitive> Pickups; //FIXME: eventualmente podrían ser algo distinto a GeometricPrimitive
+    public List<Pickup> Pickups; //FIXME: eventualmente podrían ser algo distinto a GeometricPrimitive
     public List<GeometricPrimitive> Checkpoints; // puntos de respawn
 
     public Vector3 CharacterInitialPosition;
@@ -49,14 +49,13 @@ public abstract class Stage
     //COLISIONES
     public List<OrientedBoundingBox> Colliders;
     public List<OrientedBoundingBox> CheckpointColliders;
+    public List<Pickup> PickupColliders;
     //COLISIONES
-    
+
     public Vector3 CamPosition { get; set; }
 
     public void Draw(Matrix view, Matrix projection)
-    {
-
-        
+    {       
 
         foreach (GeometricPrimitive primitive in Track)
         {
@@ -73,7 +72,7 @@ public abstract class Stage
             sign.Draw(view, projection);
         }
 
-        foreach (GeometricPrimitive pickup in Pickups)
+        foreach (Pickup pickup in Pickups)
         {
             pickup.Draw(view, projection);
         }
@@ -133,6 +132,13 @@ public abstract class Stage
         SkyBoxTexture = Content.Load<TextureCube>(ContentFolderTextures + "skyboxes/skybox/skybox");
         SkyBoxEffect = Content.Load<Effect>(ContentFolderEffects + "SkyBox");
         SkyBox = new SkyBox(SkyBoxModel, SkyBoxTexture, SkyBoxEffect, 2000);
+    }
+
+
+    public void RemovePickup(Pickup pickup)
+    {
+        Pickups.Remove(pickup);
+        PickupColliders.Remove(pickup);
     }
 
 

@@ -13,13 +13,16 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TGC.MonoGame.TP.Collisions;
 
 #endregion Using Statements
 
 namespace TGC.MonoGame.TP.Geometries {
 
     public abstract class CustomPrimitive : GeometricPrimitive {
-      
+
+        public OrientedBoundingBox BoundingCube { get; set; }
+
         protected void AddTriangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, float size, Color color)
         {
             Vector3 normal = Vector3.Cross(vertex1 - vertex2, vertex1 - vertex3);

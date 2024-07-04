@@ -168,6 +168,12 @@
 /processorParam:Quality=Best
 /build:Sounds/checkpoint.mp3
 
+#begin Sounds/coin.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/coin.mp3
+
 #begin Sounds/jump.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -185,6 +191,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/moving.mp3
+
+#begin Sounds/powerup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/powerup.mp3
 
 #begin SpriteFonts/CascadiaCode/CascadiaCodePL.spritefont
 /importer:FontDescriptionImporter
