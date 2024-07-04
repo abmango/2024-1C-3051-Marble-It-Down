@@ -467,22 +467,16 @@ namespace TGC.MonoGame.TP.MainCharacter
             BallSpinAngle += HorizontalVelocity.Length() * elapsedTime * elapsedTime / (MathHelper.Pi * 12.5f);
 
             // se normaliza el vector yCrossVelocity solo si alguna de componentes es distinta de 0
-            Vector3 yCrossVelocity = Vector3.Cross(Vector3.UnitY, Velocity);
-            if (Math.Abs(yCrossVelocity.X) > 0 || Math.Abs(yCrossVelocity.Y) > 0 || Math.Abs(yCrossVelocity.Z) > 0)
+            Vector3 yCrossVelocity = DeleteInfinitesimalValues(Vector3.Cross(Vector3.UnitY, Velocity));
+            if (Math.Abs(yCrossVelocity.X) > 0.1f || Math.Abs(yCrossVelocity.Y) > 0.1f || Math.Abs(yCrossVelocity.Z) > 0.1f)
             {
                 BallSpinAxis = Vector3.Normalize(yCrossVelocity);
-            }
-            else
-            {
-                BallSpinAxis = Vector3.Zero;
             }
 
             if (Acceleration == Vector3.Zero || Vector3.Dot(Acceleration, Velocity) < 0)
             {
-                Velocity *= 1 - elapsedTime;
+                Velocity = DeleteInfinitesimalValues(Velocity * (1 - elapsedTime));
             }
-
-            if (Velocity == Vector3.Zero) BallSpinAxis = Vector3.UnitZ;
 
             Rotation = Quaternion.CreateFromAxisAngle(RotationAxis, RotationAngle);
 
@@ -514,5 +508,13 @@ namespace TGC.MonoGame.TP.MainCharacter
 
             //WorldWithBallSpin=Matrix.CreateRotationX(DeltaX) * Matrix.CreateRotationZ(DeltaZ) * World;
         }
+        private Vector3 DeleteInfinitesimalValues(Vector3 vector)
+        {
+            if (Math.Abs(vector.X) < 0.1f) { vector.X = 0; }
+            if (Math.Abs(vector.Y) < 0.1f) { vector.Y = 0; }
+            if (Math.Abs(vector.Z) < 0.1f) { vector.Z = 0; }
+            return vector;
+        }
+
     }
 }
