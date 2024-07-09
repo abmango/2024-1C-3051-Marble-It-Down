@@ -28,7 +28,9 @@ Mecánicas del Juego:
 
 Rupias: aumenta el puntaje en 1 punto.
 Rubíes: aumenta el puntaje en 5 puntos.
-Cajas negras: obstáculos flotantes.
+Cajas negras: obstáculos flotantes fijos.
+Cajas azules: obstáculos móviles.
+Cajas blancas: checkpoints.
 
 Power-Ups:
 Rayo de velocidad: aumenta la velocidad de movimiento de la esfera.
