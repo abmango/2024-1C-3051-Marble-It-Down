@@ -49,5 +49,3 @@ TGC, Tgcito  |  Apellido, Nombre
 ](https://youtu.be/imPFhZU03-8)
 
 [![Gameplay - Marble it Down](https://img.youtube.com/vi/imPFhZU03-8/0.jpg)](https://www.youtube.com/watch?v=imPFhZU03-8)
-
-**WIP**
