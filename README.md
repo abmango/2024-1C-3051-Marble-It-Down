@@ -8,7 +8,7 @@
 
 ## Descripción
 
-Proyecto plantilla para los trabajos prácticos de la asignatura electiva [Técnicas de Gráficos por Computadora](http://tgc-utn.github.io/) (TGC) en la carrera de Ingeniería en Sistemas de Información. Universidad Tecnológica Nacional, Facultad Regional Buenos Aires (UTN-FRBA).
+Proyecto Marble It Down para los trabajos prácticos de la asignatura electiva [Técnicas de Gráficos por Computadora](http://tgc-utn.github.io/) (TGC) en la carrera de Ingeniería en Sistemas de Información. Universidad Tecnológica Nacional, Facultad Regional Buenos Aires (UTN-FRBA).
 
 ## Configuración del entorno de desarrollo
 
@@ -18,11 +18,27 @@ Afuera del mundo Windows, vas a necesitar la ayudar de [Wine](https://www.winehq
 
 Los recursos usados se almacenan utilizando [Git LFS](https://git-lfs.github.com), con lo cual antes de clonar el repositorio les conviene tenerlo instalado así es automático el pull o si ya lo tienen pueden hacer `git lfs pull`.
 
+## Juego
+
+Objetivo del Juego:
+
+El objetivo principal en Marble It Down es recoger todas las gemas y rubíes para obtener puntos, mientras corre el tiempo. Caer al vacío te devolverá al último checkpoint restándote 10 puntos. Los jugadores deben utilizar su habilidad de equilibrio para saltar y esquivar cada obstáculo, evitando caer de la plataforma.
+
+Mecánicas del Juego:
+
+Rupias: aumenta el puntaje en 1 punto.
+Rubíes: aumenta el puntaje en 5 puntos.
+Cajas negras: obstáculos flotantes.
+
+Power-Ups:
+Rayo de velocidad: aumenta la velocidad de movimiento de la esfera.
+Caja anti-gravedad: reduce la velocidad de la caída, permitiendo que la esfera pueda volver a la plataforma mientras está en el aire.
+
 ## Integrantes
 
 TGC, Tgcito  |  Apellido, Nombre
 ------------ | -------------
-|  | Mango, Alexis Brian
+| ![44e85950-017e-4d7f-b44f-f85ae7613ad5](https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/de5657cc-e1cb-4f73-b006-0321fd0a0365) | Mango, Alexis Brian
 |  | Bertani, Luis Federico
 |  | Colamonici, Luca
 
