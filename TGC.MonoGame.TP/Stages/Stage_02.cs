@@ -40,8 +40,8 @@ class Stage_02 : Stage
 
         for (int i = 0; i < Obstacles.Count; i++)
         {
-            CubePrimitive cuboActual = (CubePrimitive)Obstacles[i];
-            Colliders.Add(cuboActual.BoundingCube);
+            Obstacle cuboActual = (Obstacle)Obstacles[i];
+            Colliders.Add(cuboActual.Model.BoundingCube);
         }
 
         for (int i = 0; i < Signs.Count; i++)
@@ -123,19 +123,19 @@ class Stage_02 : Stage
 
     protected override void LoadObstacles()
     {
-        Obstacles = new List<GeometricPrimitive>()
+        Obstacles = new List<Obstacle>()
             {
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-887.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-962.5f, 37.5f, -37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1037.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1250, -12.5f, -825), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1137.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1062.5f, -87.5f, -1287.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-987.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-525, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-400, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0)),
-                //new CubePrimitive(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-275, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0))
-            };
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-887.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-962.5f, 37.5f, -37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1037.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1250, -12.5f, -825), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1137.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1062.5f, -87.5f, -1287.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-987.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-525, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-400, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-275, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f))
+        };
     }
 
     protected override void LoadSigns()
@@ -274,6 +274,10 @@ class Stage_02 : Stage
         foreach (Pickup pickup in Pickups)
         {
             pickup.Update(gameTime);
+        }
+        foreach (Obstacle obstacle in Obstacles)
+        {
+            obstacle.Update(gameTime);
         }
     }
 

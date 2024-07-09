@@ -145,16 +145,16 @@ namespace TGC.MonoGame.TP
             LoadStage(StageNumber);
         }
 
-        private void MergeEntities(List<GeometricPrimitive> Track, List<GeometricPrimitive> Obstacles, List<GeometricPrimitive> Signs, List<Pickup> Pickups, List<GeometricPrimitive> Checkpoints)
+        private void MergeEntities(List<GeometricPrimitive> Track, List<Obstacle> Obstacles, List<GeometricPrimitive> Signs, List<Pickup> Pickups, List<GeometricPrimitive> Checkpoints)
         {
             foreach (GeometricPrimitive myTrack in Track)
             {
                 Entities.Add(myTrack);
             }
 
-            foreach (GeometricPrimitive myObstacle in Obstacles)
+            foreach (Obstacle myObstacle in Obstacles)
             {
-                Entities.Add(myObstacle);
+                Entities.Add(myObstacle.Model);
             }
 
             foreach (GeometricPrimitive mySign in Signs)
