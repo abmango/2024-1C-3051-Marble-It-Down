@@ -35,7 +35,6 @@ Cajas blancas: checkpoints.
 Power-Ups:
 
 Rayo de velocidad: aumenta la velocidad de movimiento de la esfera.
-
 Caja anti-gravedad: reduce la velocidad de la caída, permitiendo que la esfera pueda volver a la plataforma mientras está en el aire.
 
 ## Integrantes
