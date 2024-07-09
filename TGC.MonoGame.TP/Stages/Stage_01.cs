@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using TGC.MonoGame.TP.Geometries;
 using TGC.MonoGame.TP.Stages;
+using TGC.MonoGame.TP.Stages.Items;
 
 class Stage_01 : Stage
 {
@@ -159,7 +160,68 @@ class Stage_01 : Stage
 
     protected override void LoadPickups()
     {
-        Pickups = new List<Pickup>();
+        Pickups = new List<Pickup>() {
+
+            // Plataformas iniciales
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, -600f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, -600f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new SpeedBoost(GraphicsDevice, Content, Color.Yellow, 25f, coordinates: new Vector3(10f, 30f, -500f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, -400f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, -400f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, -200f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, -200f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 0f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 0f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 20f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 20f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 40f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 40f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 60f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 60f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 80f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 80f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 100f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 100f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 120f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 120f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 160f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 160f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(10f, 25f, 180f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(40f, 25f, 180f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+
+            // Una vez superada la escalera
+            new Ruby(GraphicsDevice, Content, Color.Red, 25f, coordinates: new Vector3(175f, 130f, 200f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(175f, 130f, 120f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(175f, 130f, 90f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(175f, 130f, 60f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(175f, 130f, 30f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(175f, 130f, 0f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            
+            // En la rampa ponemos un rubí azul
+            new Ruby(GraphicsDevice, Content, Color.Blue, 25f, coordinates: new Vector3(180f, 160f, -412f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            
+            // Rodeando el checkpoint final
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(385f, -100f, -105f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(385f, -100f, -75f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(385f, -100f, -55f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(385f, -100f, -35f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(405f, -100f, -35f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(425f, -100f, -35f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(445f, -100f, -35f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(465f, -100f, -35f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(465f, -100f, -55f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(465f, -100f, -75f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(465f, -100f, -105f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(465f, -100f, -125f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(445f, -100f, -125f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(425f, -100f, -125f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(405f, -100f, -125f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            new Rupee(GraphicsDevice, Content, Color.Green, 25f, coordinates: new Vector3(385f, -100f, -125f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+
+            // Ponemos otro rubí justo arriba del checkpoint
+            new Ruby(GraphicsDevice, Content, Color.Yellow, 25f, coordinates: new Vector3(425f, -80f, -75f), scale: new Vector3(1f, 1f, 1f), rotation: Matrix.CreateFromYawPitchRoll(0f, 0f, 0f)),
+            
+        };
     }
 
     protected override void LoadCheckpoints()
