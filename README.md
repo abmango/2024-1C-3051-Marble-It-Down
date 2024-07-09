@@ -38,7 +38,7 @@ Caja anti-gravedad: reduce la velocidad de la caída, permitiendo que la esfera 
 
 TGC, Tgcito  |  Apellido, Nombre
 ------------ | -------------
-| ![44e85950-017e-4d7f-b44f-f85ae7613ad5](https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/de5657cc-e1cb-4f73-b006-0321fd0a0365) | Mango, Alexis Brian
+| <img src="https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/de5657cc-e1cb-4f73-b006-0321fd0a0365" alt="Descripción de la imagen" style="width: 50%; height: auto;">![44e85950-017e-4d7f-b44f-f85ae7613ad5](https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/de5657cc-e1cb-4f73-b006-0321fd0a0365) | Mango, Alexis Brian
 |  | Bertani, Luis Federico
 |  | Colamonici, Luca
 
