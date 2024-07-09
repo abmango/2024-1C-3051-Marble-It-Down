@@ -42,8 +42,8 @@ class Stage_01 : Stage
 
         for (int i = 0; i < Obstacles.Count; i++)
         {
-            CubePrimitive cuboActual = (CubePrimitive)Obstacles[i];
-            Colliders.Add(cuboActual.BoundingCube);
+            Obstacle cuboActual = (Obstacle) Obstacles[i];
+            Colliders.Add(cuboActual.Model.BoundingCube);
         }
 
         for (int i = 0; i < Signs.Count; i++)
@@ -133,7 +133,7 @@ class Stage_01 : Stage
 
     protected override void LoadObstacles()
     {
-        Obstacles = new List<GeometricPrimitive>();
+        Obstacles = new List<Obstacle>();
     }
 
     protected override void LoadSigns()

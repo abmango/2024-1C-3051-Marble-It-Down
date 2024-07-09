@@ -27,7 +27,7 @@ public abstract class Stage
     protected ContentManager Content;
 
     public List<GeometricPrimitive> Track; // circuito y obstáculos fijos 
-    public List<GeometricPrimitive> Obstacles; // obstáculos móviles
+    public List<Obstacle> Obstacles; // obstáculos móviles
     public List<GeometricPrimitive> Signs; //FIXME: eventualmente podrían ser algo distinto a GeometricPrimitive
     public List<Pickup> Pickups; //FIXME: eventualmente podrían ser algo distinto a GeometricPrimitive
     public List<GeometricPrimitive> Checkpoints; // puntos de respawn
@@ -62,7 +62,7 @@ public abstract class Stage
             primitive.Draw(view, projection);
         }
 
-        foreach (GeometricPrimitive primitive in Obstacles)
+        foreach (Obstacle primitive in Obstacles)
         {
             primitive.Draw(view, projection);
         }
