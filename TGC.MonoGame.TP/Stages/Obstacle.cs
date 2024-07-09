@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using TGC.MonoGame.TP.Collisions;
 using TGC.MonoGame.TP.Geometries;
+using TGC.MonoGame.TP.Stages.Items;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace TGC.MonoGame.TP.Stages
@@ -18,6 +19,7 @@ namespace TGC.MonoGame.TP.Stages
         protected Vector3 Movement;
         public CubePrimitive Model;
         protected float Time;
+        private const float Speed = 0.5f;
 
 
         public Obstacle(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null, Vector3? movement = null)
@@ -32,7 +34,7 @@ namespace TGC.MonoGame.TP.Stages
         public void Update(GameTime gameTime)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Time += elapsedTime;
+            Time += elapsedTime * Speed;
 
             CurrentPosition = InitialPosition + (float) Math.Sin(Time) * Movement;
             Model.World = Matrix.CreateScale(InitialScale ?? Vector3.One) * (InitialRotation ?? Matrix.Identity) * Matrix.CreateTranslation(CurrentPosition ?? Vector3.Zero);
