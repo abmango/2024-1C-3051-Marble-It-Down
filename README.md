@@ -22,9 +22,9 @@ Los recursos usados se almacenan utilizando [Git LFS](https://git-lfs.github.com
 
 TGC, Tgcito  |  Apellido, Nombre
 ------------ | -------------
-|  | Mango Alexis Brian
-|  | Bertani Luis Federico
-|  | Luca Colamonici
+|  | Mango, Alexis Brian
+|  | Bertani, Luis Federico
+|  | Colamonici, Luca
 
 ## Capturas
 
