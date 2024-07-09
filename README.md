@@ -27,13 +27,9 @@ El objetivo principal en Marble It Down es recoger todas las gemas y rubíes par
 Mecánicas del Juego:
 
 Rupias: aumenta el puntaje en 1 punto.
-
 Rubíes: aumenta el puntaje en 5 puntos.
-
 Cajas negras: obstáculos flotantes fijos.
-
 Cajas azules: obstáculos móviles.
-
 Cajas blancas: checkpoints.
 
 Power-Ups:
