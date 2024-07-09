@@ -38,7 +38,7 @@ Caja anti-gravedad: reduce la velocidad de la caída, permitiendo que la esfera 
 
 | Mango, Alexis Brian | Bertani, Luis Federico | Colamonici, Luca |
 | ------------------- | ---------------------- | ---------------- |
-|<img src="https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/170f8bf6-2404-42b4-9688-bbb5b3092afb" style="width: 25%; height: 25%;">|  |  | 
+| <img src="https://github.com/abmango/2024-1C-3051-Marble_It_Down/assets/63322647/170f8bf6-2404-42b4-9688-bbb5b3092afb" style="width: 100; height: 25%;"> |  |  | 
 
 ## Capturas
 
