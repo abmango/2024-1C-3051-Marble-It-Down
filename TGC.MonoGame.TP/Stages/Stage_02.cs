@@ -125,16 +125,22 @@ class Stage_02 : Stage
     {
         Obstacles = new List<Obstacle>()
             {
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-887.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-962.5f, 37.5f, -37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1037.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-887.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, -100)),
+            new Obstacle(GraphicsDevice, Content, Color.Red, coordinates: new Vector3(-962.5f, 37.5f, -37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, 100)),
+            new Obstacle(GraphicsDevice, Content, Color.Yellow, coordinates: new Vector3(-1037.5f, 37.5f, 37.5f), scale: new Vector3(1, 2, 3), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, -100)),
             new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1250, -12.5f, -825), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1137.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1062.5f, -87.5f, -1287.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-987.5f, -87.5f, -1337.5f), scale: new Vector3(1, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-525, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-400, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f)),
-            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-275, -225, -537.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(50f, 0f, 0f))
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-1200f, -87.5f, -1312.5f), scale: new Vector3(1.5f, 2, 0.5f), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-50f, 0f, 25f)),
+            new Obstacle(GraphicsDevice, Content, Color.Red, coordinates: new Vector3(-1075f, -87.5f, -1312.5f), scale: new Vector3(1.5f, 2, 0.5f), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-50f, 0f, -25f)),
+            new Obstacle(GraphicsDevice, Content, Color.Yellow, coordinates: new Vector3(-950f, -87.5f, -1312.5f), scale: new Vector3(1.5f, 2, 0.5f), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-50f, 0f, 25f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-525, -225, -512.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, 100f)),
+            new Obstacle(GraphicsDevice, Content, Color.Red, coordinates: new Vector3(-400, -225, -512.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, 50f)),
+            new Obstacle(GraphicsDevice, Content, Color.Yellow, coordinates: new Vector3(-275, -225, -512.5f), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(0f, 0f, 50f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-875, -375f, -875), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-75f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Blue, coordinates: new Vector3(-875, -375f, -975), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(75f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Red, coordinates: new Vector3(-875, -375f, -1075), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-75f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Red, coordinates: new Vector3(-875, -375f, -1175), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(75f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Yellow, coordinates: new Vector3(-875, -375f, -1275), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(-75f, 0f, 0f)),
+            new Obstacle(GraphicsDevice, Content, Color.Yellow, coordinates: new Vector3(-875, -375f, -1375), scale: new Vector3(2, 2, 1), rotation: Matrix.CreateFromYawPitchRoll(0, 0, 0), movement: new Vector3(75f, 0f, 0f))
         };
     }
 
