@@ -275,9 +275,12 @@ class Stage_02 : Stage
         {
             pickup.Update(gameTime);
         }
+
         foreach (Obstacle obstacle in Obstacles)
         {
+            Colliders.Remove(obstacle.Model.BoundingCube);
             obstacle.Update(gameTime);
+            Colliders.Add(obstacle.Model.BoundingCube);
         }
     }
 
