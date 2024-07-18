@@ -443,22 +443,27 @@ namespace TGC.MonoGame.TP.MainCharacter
             // Aca deberiamos poner toda la logica de actualizacion del juego.
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            float speed;
+            float speed, jumpFactor;
             switch (CurrentMaterial)
             {
                 case Material.Grass:
+                    jumpFactor = 10f;
                     speed = 95f;
                     break;
                 case Material.Gold:
+                    jumpFactor = 1f;
                     speed = 105f;
                     break;
                 case Material.Marble:
+                    jumpFactor = 60f;
                     speed = 100f;
                     break;
                 case Material.Metal:
+                    jumpFactor = -5f;
                     speed = 90f;
                     break;
                 default:
+                    jumpFactor = 0.5f;
                     speed = 98f;
                     break;
             }
@@ -484,7 +489,7 @@ namespace TGC.MonoGame.TP.MainCharacter
                 Acceleration += Vector3.Transform(RightVector * speed, Rotation) * (-1) * SpeedBoost;
             }
 
-            Acceleration += (new Vector3(0f, -100f, 0f) * GravityBoost);
+            Acceleration += new Vector3(0f, -100f, 0f) * GravityBoost;
 
             //Procesamiento del movimiento vertical
             float distGround = DistanceToGround(Position);
@@ -493,7 +498,7 @@ namespace TGC.MonoGame.TP.MainCharacter
                 JumpSoundInstance.Play();
                 // Seteo la velocidad vertical en 0 para que el salto sea siempre a la misma distancia
                 Velocity = new Vector3(Velocity.X, 0f, Velocity.Z);
-                Velocity += Vector3.Up * speed * 100f;
+                Velocity += Vector3.Up * speed * (jumpFactor + 70f);
             }
 
             Vector3 HorizontalVelocity = new Vector3(Velocity.X, 0, Velocity.Z);
