@@ -33,6 +33,8 @@ namespace TGC.MonoGame.TP.Geometries
 
         public const string ContentFolderEffects = "Effects/";
 
+        public const string ContentFolderTextures = "Textures/";
+
         // During the process of constructing a primitive model, vertex and index data is stored on the CPU in these managed lists.
         public List<VertexPositionColorNormal> Vertices { get; } = new List<VertexPositionColorNormal>();
 
@@ -83,6 +85,11 @@ namespace TGC.MonoGame.TP.Geometries
         ///     Once all the geometry has been specified by calling AddVertex and AddIndex, this method copies the vertex and index
         ///     data into GPU format buffers, ready for efficient rendering.
         /// </summary>
+        /// 
+
+        public Texture2D surfaceTexture;
+        public Texture2D normalTexture;
+
         protected void InitializePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Effect? primitiveEffect = null)
         {
             // Create a vertex declaration, describing the format of our vertex data.
@@ -97,7 +104,11 @@ namespace TGC.MonoGame.TP.Geometries
 
             IndexBuffer.SetData(Indices.ToArray());
 
-            Effect = primitiveEffect ?? content.Load<Effect>(ContentFolderEffects + "BasicShader");
+            //Effect = primitiveEffect ?? content.Load<Effect>(ContentFolderEffects + "BasicShader2");
+            Effect = primitiveEffect ?? content.Load<Effect>(ContentFolderEffects + "PBR_superficie");
+
+            surfaceTexture = content.Load<Texture2D>(ContentFolderTextures+"materials/ground/color");
+            normalTexture = content.Load<Texture2D>(ContentFolderTextures+"materials/ground/normal");
 
         }
 
@@ -162,11 +173,23 @@ namespace TGC.MonoGame.TP.Geometries
         public void Draw(Matrix view, Matrix projection)
         {
             // Set Effect parameters.
-            Effect.Parameters["World"].SetValue(World);
+            /*Effect.Parameters["World"].SetValue(World);
             Effect.Parameters["View"].SetValue(view);
             Effect.Parameters["Projection"].SetValue(projection);
             Effect.Parameters["DiffuseColor"].SetValue(Color.ToVector3());
 
+
+
+            Effect.Parameters["ColorTexture"]?.SetValue(surfaceTexture);
+            Effect.Parameters["NormalMap"]?.SetValue(normalTexture);*/
+
+            Effect.Parameters["matWorld"].SetValue(World);
+            Effect.Parameters["matWorldViewProj"].SetValue(World * view * projection);
+            Effect.Parameters["matInverseTransposeWorld"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
+            Effect.Parameters["lightPosition"].SetValue(Position + new Vector3(0, 10, 0));
+            Effect.Parameters["lightColor"].SetValue(new Vector3(253, 251, 211));
+            Effect.Parameters["normalTexture"]?.SetValue(normalTexture);
+            Effect.Parameters["albedoTexture"]?.SetValue(surfaceTexture);
             // Draw the model.
             Draw(Effect);
         }
