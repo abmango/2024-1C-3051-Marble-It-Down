@@ -447,24 +447,24 @@ namespace TGC.MonoGame.TP.MainCharacter
             switch (CurrentMaterial)
             {
                 case Material.Grass:
-                    jumpFactor = 10f;
-                    speed = 95f;
+                    jumpFactor = 9f;
+                    speed = 90f;
                     break;
                 case Material.Gold:
-                    jumpFactor = 1f;
-                    speed = 105f;
-                    break;
-                case Material.Marble:
-                    jumpFactor = 60f;
+                    jumpFactor = 5f;
                     speed = 100f;
                     break;
+                case Material.Marble:
+                    jumpFactor = 13f;
+                    speed = 80f;
+                    break;
                 case Material.Metal:
-                    jumpFactor = -5f;
+                    jumpFactor = 3f;
                     speed = 90f;
                     break;
                 default:
-                    jumpFactor = 0.5f;
-                    speed = 98f;
+                    jumpFactor = 5f;
+                    speed = 95f;
                     break;
             }
 
