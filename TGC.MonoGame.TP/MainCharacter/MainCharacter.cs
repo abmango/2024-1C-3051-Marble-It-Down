@@ -447,24 +447,24 @@ namespace TGC.MonoGame.TP.MainCharacter
             switch (CurrentMaterial)
             {
                 case Material.Grass:
-                    jumpFactor = 9f;
-                    speed = 90f;
+                    jumpFactor = 40f;
+                    speed = 110f;
                     break;
                 case Material.Gold:
-                    jumpFactor = 5f;
-                    speed = 100f;
+                    jumpFactor = 15f;
+                    speed = 90f;
                     break;
                 case Material.Marble:
-                    jumpFactor = 13f;
-                    speed = 80f;
+                    jumpFactor = 20f;
+                    speed = 100f;
                     break;
                 case Material.Metal:
-                    jumpFactor = 3f;
-                    speed = 90f;
+                    jumpFactor = 5f;
+                    speed = 70f;
                     break;
                 default:
                     jumpFactor = 5f;
-                    speed = 95f;
+                    speed = 75f;
                     break;
             }
 
@@ -498,7 +498,7 @@ namespace TGC.MonoGame.TP.MainCharacter
                 JumpSoundInstance.Play();
                 // Seteo la velocidad vertical en 0 para que el salto sea siempre a la misma distancia
                 Velocity = new Vector3(Velocity.X, 0f, Velocity.Z);
-                Velocity += Vector3.Up * speed * (jumpFactor + 70f);
+                Velocity += Vector3.Up * 100f * (jumpFactor + 80f);
             }
 
             Vector3 HorizontalVelocity = new Vector3(Velocity.X, 0, Velocity.Z);
