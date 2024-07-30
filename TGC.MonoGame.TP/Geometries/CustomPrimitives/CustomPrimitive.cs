@@ -31,9 +31,9 @@ namespace TGC.MonoGame.TP.Geometries {
             AddIndex(CurrentVertex + 1);
             AddIndex(CurrentVertex + 2);
 
-            AddVertex(vertex1 * size / 2, color, normal);
-            AddVertex(vertex2 * size / 2, color, normal);
-            AddVertex(vertex3 * size / 2, color, normal);
+            AddVertex(vertex1 * size / 2, color, normal, new Vector2(0,0));
+            AddVertex(vertex2 * size / 2, color, normal, new Vector2(0,1));
+            AddVertex(vertex3 * size / 2, color, normal, new Vector2(1,1));
         }
     }
 }

@@ -20,11 +20,13 @@ float4x4 Projection;
 float3 DiffuseColor;
 float Time = 0;
 
-Texture2D ColorTexture;
-SamplerState ColorSampler;
 
-Texture2D NormalMap;
+SamplerState ColorSampler;
+Texture2D ColorTexture;
+
 SamplerState NormalSampler;
+Texture2D NormalMap;
+
 
 struct VertexShaderInput
 {

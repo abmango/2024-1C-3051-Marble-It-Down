@@ -24,6 +24,10 @@ namespace TGC.MonoGame.TP.Geometries {
         
         public RupeePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null)
         {
+            //Effect = content.Load<>
+            Effect = content.Load<Effect>(ContentFolderEffects + "PBR_superficie");
+            surfaceTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/emerald/color");
+            normalTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/emerald/normal");
 
             Color = color;
 
@@ -94,6 +98,8 @@ namespace TGC.MonoGame.TP.Geometries {
 
             InitializePrimitive(graphicsDevice, content);
         }
+
+    
 
     }
 }

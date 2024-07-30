@@ -24,7 +24,7 @@ namespace TGC.MonoGame.TP.Geometries
     /// <summary>
     ///     Geometric primitive class for drawing spheres.
     /// </summary>
-    public class SpherePrimitive : GeometricPrimitive
+    public class SpherePrimitive : UntexturedGeometricPrimitive
     {
 
         
