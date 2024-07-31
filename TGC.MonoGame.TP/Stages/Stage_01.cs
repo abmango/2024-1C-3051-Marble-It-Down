@@ -16,7 +16,7 @@ class Stage_01 : Stage
     { 
         BackgroundMusic = Content.Load<Song>(ContentFolderMusic + "stage_01");
         MediaPlayer.Volume = 0.25f;
-        //MediaPlayer.Play(BackgroundMusic);
+        MediaPlayer.Play(BackgroundMusic);
         MediaPlayer.IsRepeating = true;
     }
 

@@ -140,8 +140,8 @@ namespace TGC.MonoGame.TP.MainCharacter
 
         private void InitializeEffect()
         {
-            Effect = Content.Load<Effect>(ContentFolderEffects + "PBR");
-            Effect.CurrentTechnique = Effect.Techniques["PBR"];
+            Effect = Content.Load<Effect>(ContentFolderEffects + "PBR_EnvMap");
+            //Effect.CurrentTechnique = Effect.Techniques["PBR"];
         }
 
         private void InitializeTextures()
@@ -229,10 +229,12 @@ namespace TGC.MonoGame.TP.MainCharacter
             {
                 case Material.RustedMetal:
                     TexturePath += "harsh-metal";
+                    Effect.Parameters["environmentIntensity"].SetValue(0.02f);
                     break;
 
                 case Material.Marble:
                     TexturePath += "marble";
+                    Effect.Parameters["environmentIntensity"].SetValue(0.5f);
                     break;
 
                 case Material.Gold:
