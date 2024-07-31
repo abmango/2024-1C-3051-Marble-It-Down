@@ -242,6 +242,8 @@ namespace TGC.MonoGame.TP
             //Stage.SkyBox.Draw(FollowCamera.View, FollowCamera.Projection, FollowCamera.CamPosition);
             MainCharacter.Draw(FollowCamera.View, FollowCamera.Projection);
 
+            Stage.CamPosition=FollowCamera.CamPosition;
+
             Stage.Draw(FollowCamera.View, FollowCamera.Projection);
 
             GraphicsDevice.RasterizerState = originalRasterizerState;

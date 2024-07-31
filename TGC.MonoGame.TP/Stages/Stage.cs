@@ -59,6 +59,7 @@ public abstract class Stage
 
         foreach (GeometricPrimitive primitive in Track)
         {
+            primitive.Effect.Parameters["lightPosition"].SetValue(CamPosition +  new Vector3(0, 100, 0));
             primitive.Draw(view, projection);
         }
 
@@ -69,6 +70,7 @@ public abstract class Stage
 
         foreach (GeometricPrimitive sign in Signs)
         {
+            sign.Effect.Parameters["lightPosition"].SetValue(CamPosition +  new Vector3(0, 100, 0));
             sign.Draw(view, projection);
         }
 
@@ -78,6 +80,7 @@ public abstract class Stage
         }
         foreach (GeometricPrimitive checkpoint in Checkpoints)
         {
+            checkpoint.Effect.Parameters["lightPosition"].SetValue(CamPosition +  new Vector3(0, 100, 0));
             checkpoint.Draw(view, projection);
         }
         

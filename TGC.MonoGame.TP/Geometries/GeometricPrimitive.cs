@@ -137,6 +137,7 @@ namespace TGC.MonoGame.TP.Geometries
 
             //Effect = content.Load<Effect>(ContentFolderEffects + "PBR");
             Effect = content.Load<Effect>(ContentFolderEffects+"PBR_superficie");
+            Effect.CurrentTechnique = Effect.Techniques["PBR"];
 
             //surfaceTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/marble/color");
             //normalTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/marble/normal");
@@ -226,7 +227,8 @@ namespace TGC.MonoGame.TP.Geometries
             Effect.Parameters["matWorld"].SetValue(World);
             Effect.Parameters["matWorldViewProj"].SetValue(World * view * projection);
             Effect.Parameters["matInverseTransposeWorld"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
-            Effect.Parameters["lightPosition"].SetValue(Position + new Vector3(0, 30, 0));
+            //Effect.Parameters["lightPosition"].SetValue(Position + new Vector3(0, 30, 0));
+            //Effect.Parameters["lightPosition"].SetValue( new Vector3(25, 140, -800));
             Effect.Parameters["lightColor"].SetValue(new Vector3(253, 251, 211));
             Effect.Parameters["normalTexture"]?.SetValue(normalTexture);
             Effect.Parameters["albedoTexture"]?.SetValue(surfaceTexture);

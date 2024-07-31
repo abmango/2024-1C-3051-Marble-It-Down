@@ -167,6 +167,7 @@ namespace TGC.MonoGame.TP.MainCharacter
             Effect.Parameters["lightColor"].SetValue(new Vector3(253, 251, 211));
             Effect.GraphicsDevice.BlendState = BlendState.Opaque;
             Sphere.Meshes.FirstOrDefault().Draw();
+            
         }
 
         private void LoadTextures()
