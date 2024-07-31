@@ -229,24 +229,27 @@ namespace TGC.MonoGame.TP.MainCharacter
             {
                 case Material.RustedMetal:
                     TexturePath += "harsh-metal";
-                    Effect.Parameters["environmentIntensity"].SetValue(0.02f);
+                    Effect.Parameters["environmentIntensity"].SetValue(0.01f);
                     break;
 
                 case Material.Marble:
                     TexturePath += "marble";
-                    Effect.Parameters["environmentIntensity"].SetValue(0.5f);
+                    Effect.Parameters["environmentIntensity"].SetValue(0.02f);
                     break;
 
                 case Material.Gold:
                     TexturePath += "gold";
+                    Effect.Parameters["environmentIntensity"].SetValue(0.03f);
                     break;
 
                 case Material.Metal:
                     TexturePath += "metal";
+                    Effect.Parameters["environmentIntensity"].SetValue(0.025f);
                     break;
 
                 case Material.Grass:
                     TexturePath += "ground";
+                    Effect.Parameters["environmentIntensity"].SetValue(0.005f);
                     break;
             }
 
