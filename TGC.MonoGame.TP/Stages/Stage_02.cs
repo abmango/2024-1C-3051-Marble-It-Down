@@ -290,4 +290,21 @@ class Stage_02 : Stage
         }
     }
 
+    public override List<GeometricPrimitive> GetModelListForShadowmapping()
+    {
+        List<GeometricPrimitive> models = new List<GeometricPrimitive>();
+
+        models.AddRange(Track);
+        models.AddRange(Signs);
+        for (int i = 0; i < Obstacles.Count; i++)
+        {
+            models.Add(Obstacles[i].Model);
+        }
+        for (int i = 0; i < Pickups.Count; i++)
+        {
+            models.Add(Pickups[i].Model);
+        }
+
+        return models;
+    }
 }

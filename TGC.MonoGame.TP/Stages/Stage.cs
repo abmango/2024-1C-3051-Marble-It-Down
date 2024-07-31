@@ -120,6 +120,8 @@ public abstract class Stage
 
     abstract protected void LoadCheckpoints();
 
+    abstract public List<GeometricPrimitive> GetModelListForShadowmapping();
+
 
 
     public Model SkyBoxModel;

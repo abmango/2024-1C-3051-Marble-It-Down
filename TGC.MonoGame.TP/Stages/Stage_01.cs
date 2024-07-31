@@ -234,12 +234,28 @@ class Stage_01 : Stage
     }
 
 
-
     public override void Update(GameTime gameTime)
     {
         // TODO: actualizar el estado de todas las piezas m�viles del nivel
     }
 
+    public override List<GeometricPrimitive> GetModelListForShadowmapping()
+    {
+        List<GeometricPrimitive> models = new List<GeometricPrimitive>();
+
+        models.AddRange(Track);
+        models.AddRange(Signs);
+        for (int i = 0; i < Obstacles.Count; i++)
+        {
+            models.Add(Obstacles[i].Model);
+        }
+        for (int i = 0; i < Pickups.Count; i++)
+        {
+            models.Add(Pickups[i].Model);
+        }
+
+        return models;
+    }
 }
 
 
