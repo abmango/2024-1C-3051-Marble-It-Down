@@ -30,7 +30,7 @@ namespace TGC.MonoGame.TP
         public const string ContentFolderSpriteFonts = "SpriteFonts/";
         public const string ContentFolderTextures = "Textures/";
 
-
+        private const int EnvironmentmapSize = 2048;
 
         /// <summary>
         ///     Constructor del juego.
@@ -58,6 +58,10 @@ namespace TGC.MonoGame.TP
         // Camera to draw the scene
         private FollowCamera FollowCamera { get; set; }
 
+        private StaticCamera CubeMapCamera { get; set; }
+
+        private RenderTargetCube EnvironmentMapRenderTarget { get; set; }
+
         // BOLITA
         private Character MainCharacter;
         private Stage Stage;
@@ -82,6 +86,9 @@ namespace TGC.MonoGame.TP
             //Camera = new FreeCamera(GraphicsDevice.Viewport.AspectRatio, cameraPosition, size);
             // Creo una camaar para seguir a nuestro auto.
             FollowCamera = new FollowCamera(GraphicsDevice.Viewport.AspectRatio, size);
+
+            CubeMapCamera = new StaticCamera(1f, new Vector3(25, 40, -800), Vector3.UnitZ, Vector3.Up);
+            CubeMapCamera.BuildProjection(1f, 1f, 3000f, MathHelper.PiOver2);
 
 
             // La logica de inicializacion que no depende del contenido se recomienda poner en este metodo.
@@ -112,6 +119,10 @@ namespace TGC.MonoGame.TP
             SpriteFont = Content.Load<SpriteFont>(ContentFolderSpriteFonts + "CascadiaCode/CascadiaCodePL");
             UI = new UIManager(this, Content, GraphicsDevice, SpriteBatch, SpriteFont);
 
+            EnvironmentMapRenderTarget = new RenderTargetCube(GraphicsDevice, EnvironmentmapSize, false,
+                SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.DiscardContents);
+            GraphicsDevice.BlendState = BlendState.Opaque;
+
             LoadStage(StageNumber);
 
             base.LoadContent();
@@ -132,7 +143,8 @@ namespace TGC.MonoGame.TP
 
             Entities = new List<Entity>();
             MainCharacter = new Character(Content, Stage, Entities);
-            BallEffect = Content.Load<Effect>(ContentFolderEffects + "PBR");
+            BallEffect = Content.Load<Effect>(ContentFolderEffects + "PBR_EnvMap");
+            //BallEffect.Parameters["environmentIntensity"].SetValue(0.05f);
             MergeEntities(Stage.Track, Stage.Obstacles, Stage.Signs, Stage.Pickups, Stage.Checkpoints);
 
             UI.ResetStage(stage);
@@ -185,12 +197,16 @@ namespace TGC.MonoGame.TP
                 UI.UIStatus = GameStatus.Menu;
                 MediaPlayer.Volume = AudioManager.MenuVolume;
             }
+
+            
             UI.Score = MainCharacter.Money;
             UI.Update(gameTime);
 
             MainCharacter.Status = UI.UIStatus;
 
             MainCharacter.Update(gameTime);
+
+            CubeMapCamera.Position = MainCharacter.Position;
 
             FollowCamera.Update(gameTime, MainCharacter.World);
             // actualiza el estado solo si está jugando
@@ -227,6 +243,28 @@ namespace TGC.MonoGame.TP
         /// </summary>
         protected override void Draw(GameTime gameTime)
         {
+            #region Pass 1-6
+
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            // Draw to our cubemap from the robot position
+            for (var face = CubeMapFace.PositiveX; face <= CubeMapFace.NegativeZ; face++)
+            {
+                // Set the render target as our cubemap face, we are drawing the scene in this texture
+                GraphicsDevice.SetRenderTarget(EnvironmentMapRenderTarget, face);
+                GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.CornflowerBlue, 1f, 0);
+
+                SetCubemapCameraForOrientation(face);
+                CubeMapCamera.BuildView();
+
+                // Draw our scene. Do not draw our tank as it would be occluded by itself 
+                // (if it has backface culling on)
+                Stage.Draw(CubeMapCamera.View, CubeMapCamera.Projection);
+            }
+
+            #endregion
+
+            #region Pass 7
+            GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.LightSkyBlue);
             // Aca deberiamos poner toda la logia de renderizado del juego.
             var originalRasterizerState = GraphicsDevice.RasterizerState;
@@ -240,7 +278,12 @@ namespace TGC.MonoGame.TP
 
             //
             //Stage.SkyBox.Draw(FollowCamera.View, FollowCamera.Projection, FollowCamera.CamPosition);
+            BallEffect.Parameters["environmentMap"].SetValue(EnvironmentMapRenderTarget);
+            BallEffect.Parameters["eyePosition"].SetValue(FollowCamera.CamPosition);
+
             MainCharacter.Draw(FollowCamera.View, FollowCamera.Projection);
+
+            Stage.CamPosition=FollowCamera.CamPosition;
 
             Stage.Draw(FollowCamera.View, FollowCamera.Projection);
 
@@ -256,8 +299,46 @@ namespace TGC.MonoGame.TP
 
             // Restauramos el estado original del DepthStencilState después de la UI
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            #endregion
         }
 
+        private void SetCubemapCameraForOrientation(CubeMapFace face)
+        {
+            switch (face)
+            {
+                default:
+                case CubeMapFace.PositiveX:
+                    CubeMapCamera.FrontDirection = -Vector3.UnitX;
+                    CubeMapCamera.UpDirection = Vector3.Down;
+                    break;
+
+                case CubeMapFace.NegativeX:
+                    CubeMapCamera.FrontDirection = Vector3.UnitX;
+                    CubeMapCamera.UpDirection = Vector3.Down;
+                    break;
+
+                case CubeMapFace.PositiveY:
+                    CubeMapCamera.FrontDirection = Vector3.Down;
+                    CubeMapCamera.UpDirection = Vector3.UnitZ;
+                    break;
+
+                case CubeMapFace.NegativeY:
+                    CubeMapCamera.FrontDirection = Vector3.Up;
+                    CubeMapCamera.UpDirection = -Vector3.UnitZ;
+                    break;
+
+                case CubeMapFace.PositiveZ:
+                    CubeMapCamera.FrontDirection = -Vector3.UnitZ;
+                    CubeMapCamera.UpDirection = Vector3.Down;
+                    break;
+
+                case CubeMapFace.NegativeZ:
+                    CubeMapCamera.FrontDirection = Vector3.UnitZ;
+                    CubeMapCamera.UpDirection = Vector3.Down;
+                    break;
+            }
+        }
+        
         /// <summary>
         ///     Libero los recursos que se cargaron en el juego.
         /// </summary>

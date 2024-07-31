@@ -63,7 +63,7 @@ namespace TGC.MonoGame.TP
             
             var mouseState = Mouse.GetState();
 
-            if (true)
+            if (true) //ACA  mouseState.RightButton.Equals(ButtonState.Pressed)
             {
                 var mouseDelta = mouseState.Position.ToVector2();
                 if(!camMoving)

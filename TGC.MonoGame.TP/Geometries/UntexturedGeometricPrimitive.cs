@@ -21,41 +21,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TGC.MonoGame.TP.Geometries
 {
-    public struct VertexPositionColorNormalTexture : IVertexType
-    {
-        public Vector3 Position;
-        public Color Color;
-        public Vector3 Normal;
-        public Vector2 TextureCoordinate;
-
-        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
-        (
-            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-            new VertexElement(sizeof(float) * 3, VertexElementFormat.Color, VertexElementUsage.Color, 0),
-            new VertexElement(sizeof(float) * 3 + 4, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
-            new VertexElement(sizeof(float) * 6 + 4, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
-        );
-
-        VertexDeclaration IVertexType.VertexDeclaration => VertexDeclaration;
-
-        public VertexPositionColorNormalTexture(Vector3 position, Color color, Vector3 normal, Vector2 textureCoordinate)
-        {
-            Position = position;
-            Color = color;
-            Normal = normal;
-            TextureCoordinate = textureCoordinate;
-        }
-    }
-
-
-
     /// <summary>
     ///     Base class for simple geometric primitive models. This provides a vertex buffer, an index buffer, plus methods for
     ///     drawing the model. Classes for specific types of primitive (CubePrimitive, SpherePrimitive, etc.) are derived from
     ///     this common base, and use the AddVertex and AddIndex methods to specify their geometry.
     /// </summary>
     /// 
-    public abstract class GeometricPrimitive : Entity
+    public abstract class UntexturedGeometricPrimitive : Entity
     {
         #region Fields
 
@@ -64,10 +36,7 @@ namespace TGC.MonoGame.TP.Geometries
         public const string ContentFolderTextures = "Textures/";
 
         // During the process of constructing a primitive model, vertex and index data is stored on the CPU in these managed lists.
-        //public List<VertexPositionColorNormal> Vertices { get; } = new List<VertexPositionColorNormal>();
-
-        List<VertexPositionColorNormalTexture> Vertices = new List<VertexPositionColorNormalTexture>();
-
+        public List<VertexPosition> Vertices { get; } = new List<VertexPosition>();
 
         public List<ushort> Indices { get; } = new List<ushort>();
 
@@ -77,8 +46,6 @@ namespace TGC.MonoGame.TP.Geometries
 
         private IndexBuffer IndexBuffer { get; set; }
         public Effect Effect { get; set; }
-
-        public Effect Effect2{get;set;}
 
         public Matrix World { get; set; }
         public Color Color { get; set; }
@@ -92,9 +59,9 @@ namespace TGC.MonoGame.TP.Geometries
         ///     Adds a new vertex to the primitive model. This should only be called during the initialization process, before
         ///     InitializePrimitive.
         /// </summary>
-        protected void AddVertex(Vector3 position, Color color, Vector3 normal, Vector2 texCoord)
+        protected void AddVertex(Vector3 position, Color color, Vector3 normal)
         {
-            Vertices.Add(new VertexPositionColorNormalTexture(position, color, normal, texCoord));
+            Vertices.Add(new VertexPosition(position));
         }
 
         /// <summary>
@@ -120,34 +87,34 @@ namespace TGC.MonoGame.TP.Geometries
         /// </summary>
         /// 
 
-        public Texture2D surfaceTexture;
-        public Texture2D normalTexture;
 
-        protected virtual void InitializePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Effect? primitiveEffect = null)
+        protected void InitializePrimitive(GraphicsDevice graphicsDevice, ContentManager content, Effect? primitiveEffect = null)
         {
             // Create a vertex declaration, describing the format of our vertex data.
 
             // Create a vertex buffer, and copy our vertex data into it.
-            VertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionColorNormalTexture), Vertices.Count, BufferUsage.None);
+            VertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPosition), Vertices.Count,
+                BufferUsage.None);
             VertexBuffer.SetData(Vertices.ToArray());
 
             // Create an index buffer, and copy our index data into it.
             IndexBuffer = new IndexBuffer(graphicsDevice, typeof(ushort), Indices.Count, BufferUsage.None);
+
             IndexBuffer.SetData(Indices.ToArray());
 
-            //Effect = content.Load<Effect>(ContentFolderEffects + "PBR");
-            Effect = content.Load<Effect>(ContentFolderEffects+"PBR_superficie");
-            Effect.CurrentTechnique = Effect.Techniques["PBR"];
+            //Effect = primitiveEffect ?? content.Load<Effect>(ContentFolderEffects + "BasicShader2");
+            Effect = primitiveEffect ?? content.Load<Effect>(ContentFolderEffects + "BasicShader");
 
-            //surfaceTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/marble/color");
-            //normalTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/marble/normal");
+            //surfaceTexture = content.Load<Texture2D>(ContentFolderTextures+"materials/ground/color");
+            //normalTexture = content.Load<Texture2D>(ContentFolderTextures+"materials/ground/normal");
+
         }
 
 
         /// <summary>
         ///     Finalizer.
         /// </summary>
-        ~GeometricPrimitive()
+        ~UntexturedGeometricPrimitive()
         {
             Dispose(false);
         }
@@ -201,37 +168,26 @@ namespace TGC.MonoGame.TP.Geometries
             }
         }
 
-        public virtual void Draw(Matrix view, Matrix projection)
+        public void Draw(Matrix view, Matrix projection)
         {
             // Set Effect parameters.
-            /*Effect.Parameters["World"].SetValue(World);
+            Effect.Parameters["World"].SetValue(World);
             Effect.Parameters["View"].SetValue(view);
             Effect.Parameters["Projection"].SetValue(projection);
-            Effect.Parameters["DiffuseColor"].SetValue(Color.ToVector3());*/
-            /*
-            if (surfaceTexture == null)
-            {
-                throw new ArgumentNullException(nameof(surfaceTexture), "surfaceTexture no puede ser nulo.");
-            }
+            Effect.Parameters["DiffuseColor"].SetValue(Color.ToVector3());
 
-            // Verificación de que el parámetro ColorTexture exista
-            var colorTextureParameter = Effect.Parameters["ColorSampler+ColorTexture"]; //no preguntes, tampoco tengo idea
-            if (colorTextureParameter == null)
-            {
-                throw new InvalidOperationException("No se encontró el parámetro 'ColorTexture' en el shader.");
-            }
 
-            Effect.Parameters["ColorSampler+ColorTexture"].SetValue(surfaceTexture);
-            Effect.Parameters["NormalMap"].SetValue(normalTexture);*/
 
-            Effect.Parameters["matWorld"].SetValue(World);
+            /*Effect.Parameters["ColorTexture"]?.SetValue(surfaceTexture);
+            Effect.Parameters["NormalMap"]?.SetValue(normalTexture);*/
+
+            /*Effect.Parameters["matWorld"].SetValue(World);
             Effect.Parameters["matWorldViewProj"].SetValue(World * view * projection);
             Effect.Parameters["matInverseTransposeWorld"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
-            //Effect.Parameters["lightPosition"].SetValue(Position + new Vector3(0, 30, 0));
-            //Effect.Parameters["lightPosition"].SetValue( new Vector3(25, 140, -800));
+            Effect.Parameters["lightPosition"].SetValue(Position + new Vector3(0, 10, 0));
             Effect.Parameters["lightColor"].SetValue(new Vector3(253, 251, 211));
             Effect.Parameters["normalTexture"]?.SetValue(normalTexture);
-            Effect.Parameters["albedoTexture"]?.SetValue(surfaceTexture);
+            Effect.Parameters["albedoTexture"]?.SetValue(surfaceTexture);*/
             // Draw the model.
             Draw(Effect);
         }

@@ -24,6 +24,10 @@ namespace TGC.MonoGame.TP.Geometries {
     public class DiamondPrimitive : CustomPrimitive {
         
         public DiamondPrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null) {
+            
+            Effect = content.Load<Effect>(ContentFolderEffects + "PBR_superficie");
+            surfaceTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/ruby/color");
+            normalTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/ruby/normal");
 
             Color = color;
 
