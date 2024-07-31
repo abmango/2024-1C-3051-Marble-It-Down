@@ -24,6 +24,10 @@ namespace TGC.MonoGame.TP.Geometries {
         
         public LightningPrimitive(GraphicsDevice graphicsDevice, ContentManager content, Color color, float size = 25f, Vector3? coordinates = null, Vector3? scale = null, Matrix? rotation = null) {
 
+            Effect = content.Load<Effect>(ContentFolderEffects + "PBR_superficie");
+            surfaceTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/ruby/yellow_enserio");
+            normalTexture = content.Load<Texture2D>(ContentFolderTextures + "materials/ruby/normal");
+
             Color = color;
 
             Vector3[] vertexList =

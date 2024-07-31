@@ -258,7 +258,7 @@ float3 fresnelSchlick(float cosTheta, float3 F0)
 }*/
 
 // Pixel Shader
-float4 MainPS(VertexShaderOutput input) : COLOR
+/*float4 MainPS(VertexShaderOutput input) : COLOR
 {
     float3 albedo = pow(tex2D(albedoSampler, input.TextureCoordinates).rgb, float3(2.2, 2.2, 2.2));
     float metallic = tex2D(metallicSampler, input.TextureCoordinates).r;
@@ -316,7 +316,74 @@ float4 MainPS(VertexShaderOutput input) : COLOR
     color = pow(color, float3(exponent, exponent, exponent));
 
     return float4(color, 1.0);
+}*/
+
+// Pixel Shader
+float4 MainPS(VertexShaderOutput input) : COLOR
+{
+    float3 albedo = pow(tex2D(albedoSampler, input.TextureCoordinates).rgb, float3(2.2, 2.2, 2.2));
+    float metallic = tex2D(metallicSampler, input.TextureCoordinates).r;
+    float roughness = tex2D(roughnessSampler, input.TextureCoordinates).r;
+    float ao = tex2D(aoSampler, input.TextureCoordinates).r;
+
+    float3 worldNormal = input.WorldNormal;
+    float3 normal = getNormalFromMap(input.TextureCoordinates, input.WorldPosition.xyz, worldNormal);
+    float3 view = normalize(eyePosition - input.WorldPosition.xyz);
+
+    float3 F0 = float3(0.04, 0.04, 0.04);
+    F0 = lerp(F0, albedo, metallic);
+
+    // Reflectance equation
+    float3 Lo = float3(0.0, 0.0, 0.0);
+
+    float3 light = (lightPosition - input.WorldPosition.xyz);
+    float distance = length(light);
+    light = normalize(light);
+    float3 halfVector = normalize(view + light);
+    float attenuation = 1.0 / (distance); // cambiar para bajar o subir atenuacion
+    float3 radiance = lightColor * attenuation;
+
+    // Cook-Torrance BRDF
+    float NDF = DistributionGGX(normal, halfVector, roughness);
+    float G = GeometrySmith(normal, view, light, roughness);
+    float3 F = fresnelSchlick(max(dot(halfVector, view), 0.0), F0);
+
+    float3 nominator = NDF * G * F;
+    float denominator = 4.0 * max(dot(normal, view), 0.0) + 0.001;
+    float3 specular = nominator / denominator;
+
+    float3 kS = F;
+    float3 kD = float3(1.0, 1.0, 1.0) - kS;
+    kD *= 1.0 - metallic;
+
+    // Scale light by NdotL
+    float NdotL = max(dot(normal, light), 0.0);
+    Lo += (kD * NdotL * albedo / PI + specular) * radiance;
+
+    // Environment reflection
+    float3 reflection = reflect(-view, normal);
+
+    // Invert reflection vector components to correct the orientation
+    reflection.x = -reflection.x;
+    reflection.z = -reflection.z;
+
+    float3 envColor = texCUBE(environmentSampler, reflection).rgb;
+
+    // Combine with environment reflection using environmentIntensity
+    float3 ambient = envColor * ao * environmentIntensity;
+
+    float3 color = ambient + Lo;
+
+    // HDR tonemapping
+    color = color / (color + float3(1, 1, 1));
+
+    float exponent = 1.0 / 2.2;
+    // Gamma correct
+    color = pow(color, float3(exponent, exponent, exponent));
+
+    return float4(color, 1.0);
 }
+
 
 
 technique PBR
