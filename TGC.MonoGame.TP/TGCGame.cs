@@ -227,6 +227,9 @@ namespace TGC.MonoGame.TP
             // actualiza el estado solo si está jugando
             if (UI.UIStatus == GameStatus.Playing)
             {
+                TargetLightCamera.Position = LightPosition;
+                TargetLightCamera.BuildView();
+
                 if (MainCharacter.FinishedStage)
                 {
                     LoadNextStage();
@@ -285,9 +288,11 @@ namespace TGC.MonoGame.TP
             GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1f, 0);
 
             ShadowsMapEffect.CurrentTechnique = ShadowsMapEffect.Techniques["DepthPass"];
+            ShadowsMapEffect.Parameters["matWorldViewProj"].SetValue(MainCharacter.World  * TargetLightCamera.View * TargetLightCamera.Projection);
+
             Effect aux = MainCharacter.Effect;
             MainCharacter.Effect = ShadowsMapEffect;
-            MainCharacter.Draw(FollowCamera.View, FollowCamera.Projection);
+            MainCharacter.Draw(TargetLightCamera.View, TargetLightCamera.Projection);
             MainCharacter.Effect = aux;
             #endregion
 
@@ -308,7 +313,6 @@ namespace TGC.MonoGame.TP
             //Stage.SkyBox.Draw(FollowCamera.View, FollowCamera.Projection, FollowCamera.CamPosition);
             BallEffect.Parameters["environmentMap"].SetValue(EnvironmentMapRenderTarget);
             BallEffect.Parameters["eyePosition"].SetValue(FollowCamera.CamPosition);
-
             MainCharacter.Draw(FollowCamera.View, FollowCamera.Projection);
 
             Stage.CamPosition=FollowCamera.CamPosition;
@@ -318,7 +322,7 @@ namespace TGC.MonoGame.TP
             ShadowsMapEffect.Parameters["lightPosition"].SetValue(LightPosition);
             ShadowsMapEffect.Parameters["shadowMapSize"].SetValue(Vector2.One * ShadowmapSize);
             ShadowsMapEffect.Parameters["matLightViewProj"].SetValue(TargetLightCamera.View * TargetLightCamera.Projection);
-            Stage.Draw(FollowCamera.View, FollowCamera.Projection);
+            Stage.Draw(FollowCamera.View, FollowCamera.Projection, ShadowsMapEffect);
 
             GraphicsDevice.RasterizerState = originalRasterizerState;
 

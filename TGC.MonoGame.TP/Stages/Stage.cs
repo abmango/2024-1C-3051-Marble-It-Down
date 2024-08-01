@@ -54,12 +54,19 @@ public abstract class Stage
 
     public Vector3 CamPosition { get; set; }
 
-    public void Draw(Matrix view, Matrix projection)
+    public void Draw(Matrix view, Matrix projection, Effect effect = null)
     {       
 
         foreach (GeometricPrimitive primitive in Track)
         {
-            primitive.Effect.Parameters["lightPosition"].SetValue(CamPosition +  new Vector3(0, 100, 0));
+            if (effect != null)
+            {
+                primitive.Effect = effect;
+            }
+            else
+            { 
+                primitive.Effect.Parameters["lightPosition"].SetValue(CamPosition +  new Vector3(0, 100, 0));
+            }
             primitive.Draw(view, projection);
         }
 
