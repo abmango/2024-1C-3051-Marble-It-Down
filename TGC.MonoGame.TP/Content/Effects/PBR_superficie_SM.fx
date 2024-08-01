@@ -335,24 +335,6 @@ technique DepthPass
     }
 };
 
-technique DrawShadowed
-{
-    pass Pass0
-    {
-        VertexShader = compile VS_SHADERMODEL MainVS();
-        PixelShader = compile PS_SHADERMODEL ShadowedPS();
-    }
-};
-
-technique DrawShadowedPCF
-{
-    pass Pass0
-    {
-        VertexShader = compile VS_SHADERMODEL MainVS();
-        PixelShader = compile PS_SHADERMODEL ShadowedPCFPS();
-    }
-};
-
 
 technique PBR
 {
