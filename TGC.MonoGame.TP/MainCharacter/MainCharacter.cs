@@ -31,7 +31,7 @@ namespace TGC.MonoGame.TP.MainCharacter
         Model Sphere;
         public Matrix World;
         Matrix Scale = Matrix.CreateScale(12.5f);
-        Effect Effect;
+        public Effect Effect { get; set; }
 
         public GameStatus Status;
 

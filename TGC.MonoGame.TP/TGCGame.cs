@@ -61,6 +61,15 @@ namespace TGC.MonoGame.TP
         private StaticCamera CubeMapCamera { get; set; }
 
         private RenderTargetCube EnvironmentMapRenderTarget { get; set; }
+        
+        private RenderTarget2D ShadowMapRenderTarget { get; set; }
+        private const int ShadowmapSize = 2048;
+        private Effect ShadowsMapEffect { get; set; }
+
+        private Vector3 LightPosition = Vector3.One * 500f;
+        private TargetCamera TargetLightCamera { get; set; }
+        private readonly float LightCameraFarPlaneDistance = 3000f;
+        private readonly float LightCameraNearPlaneDistance = 5f;
 
         // BOLITA
         private Character MainCharacter;
@@ -90,6 +99,8 @@ namespace TGC.MonoGame.TP
             CubeMapCamera = new StaticCamera(1f, new Vector3(25, 40, -800), Vector3.UnitZ, Vector3.Up);
             CubeMapCamera.BuildProjection(1f, 1f, 3000f, MathHelper.PiOver2);
 
+            TargetLightCamera = new TargetCamera(1f, LightPosition, Vector3.Zero);
+            TargetLightCamera.BuildProjection(1f, LightCameraNearPlaneDistance, LightCameraFarPlaneDistance, MathHelper.PiOver2);
 
             // La logica de inicializacion que no depende del contenido se recomienda poner en este metodo.
 
@@ -118,6 +129,10 @@ namespace TGC.MonoGame.TP
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteFont = Content.Load<SpriteFont>(ContentFolderSpriteFonts + "CascadiaCode/CascadiaCodePL");
             UI = new UIManager(this, Content, GraphicsDevice, SpriteBatch, SpriteFont);
+
+
+            ShadowsMapEffect = Content.Load<Effect>(ContentFolderEffects + "PBR_superficie_SM");
+            ShadowMapRenderTarget = new RenderTarget2D(GraphicsDevice, ShadowmapSize, ShadowmapSize, false, SurfaceFormat.Single, DepthFormat.Depth24, 0, RenderTargetUsage.PlatformContents);
 
             EnvironmentMapRenderTarget = new RenderTargetCube(GraphicsDevice, EnvironmentmapSize, false,
                 SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.DiscardContents);
@@ -264,6 +279,19 @@ namespace TGC.MonoGame.TP
             #endregion
 
             #region Pass 7
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.SetRenderTarget(ShadowMapRenderTarget);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1f, 0);
+
+            ShadowsMapEffect.CurrentTechnique = ShadowsMapEffect.Techniques["DepthPass"];
+            Effect aux = MainCharacter.Effect;
+            MainCharacter.Effect = ShadowsMapEffect;
+            MainCharacter.Draw(FollowCamera.View, FollowCamera.Projection);
+            MainCharacter.Effect = aux;
+            #endregion
+
+            #region Pass 8
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.LightSkyBlue);
             // Aca deberiamos poner toda la logia de renderizado del juego.
@@ -285,6 +313,11 @@ namespace TGC.MonoGame.TP
 
             Stage.CamPosition=FollowCamera.CamPosition;
 
+            ShadowsMapEffect.CurrentTechnique = ShadowsMapEffect.Techniques["PBR"];
+            ShadowsMapEffect.Parameters["shadowMap"].SetValue(ShadowMapRenderTarget);
+            ShadowsMapEffect.Parameters["lightPosition"].SetValue(LightPosition);
+            ShadowsMapEffect.Parameters["shadowMapSize"].SetValue(Vector2.One * ShadowmapSize);
+            ShadowsMapEffect.Parameters["matLightViewProj"].SetValue(TargetLightCamera.View * TargetLightCamera.Projection);
             Stage.Draw(FollowCamera.View, FollowCamera.Projection);
 
             GraphicsDevice.RasterizerState = originalRasterizerState;
