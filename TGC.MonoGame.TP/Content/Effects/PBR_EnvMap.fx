@@ -365,7 +365,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 
     // Invert reflection vector components to correct the orientation
     reflection.x = -reflection.x;
-    reflection.z = -reflection.z;
+    reflection.y = -reflection.y;
 
     float3 envColor = texCUBE(environmentSampler, reflection).rgb;
 
